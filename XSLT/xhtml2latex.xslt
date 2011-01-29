@@ -108,14 +108,7 @@
 			</xsl:when>
 		<xsl:when test="translate(@name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
 		'abcdefghijklmnopqrstuvwxyz') = 'date'">
-			<xsl:text>\date{</xsl:text>
-			<xsl:call-template name="clean-text">
-				<xsl:with-param name="source">
-					<xsl:value-of select="@content"/>
-				</xsl:with-param>
-			</xsl:call-template>		
-			<xsl:text>}
-\def\mydate{</xsl:text>
+			<xsl:text>\def\mydate{</xsl:text>
 			<xsl:call-template name="clean-text">
 				<xsl:with-param name="source">
 					<xsl:value-of select="@content"/>
@@ -696,14 +689,14 @@
 	<xsl:template match="html:em">
 		<xsl:text>{\itshape </xsl:text>
 			<xsl:apply-templates select="node()"/>
-		<xsl:text>}</xsl:text>
+		<xsl:text>} </xsl:text>
 	</xsl:template>
 
 	<!-- strong -->
 	<xsl:template match="html:strong">
 		<xsl:text>\textbf{</xsl:text>
 			<xsl:apply-templates select="node()"/>
-		<xsl:text>}</xsl:text>
+		<xsl:text>} </xsl:text>
 	</xsl:template>
 	
 	<!-- horizontal rule -->
@@ -795,7 +788,7 @@
 				<xsl:text>\caption{</xsl:text>
 				<xsl:apply-templates select="@title"/>
 				<xsl:text>}
-	</xsl:text>
+</xsl:text>
 			</xsl:if>
 		</xsl:if>
 		<xsl:if test="@id">
@@ -831,6 +824,7 @@
 \end{minipage}
 \end{table}
 
+
 </xsl:text>
 	</xsl:template>
 
@@ -843,22 +837,29 @@
 \small
 </xsl:text>
 		<xsl:apply-templates select="html:caption"/>
-		<xsl:text>\begin{tabulary}{\linewidth}{@{}</xsl:text>
+		<xsl:text>\begin{tabular}{@{}</xsl:text>
 		<xsl:apply-templates select="html:col"/>
-		<xsl:text>@{}} \\ \toprule </xsl:text>
+		<xsl:text>@{}} \\ \toprule</xsl:text>
 		<xsl:apply-templates select="html:thead"/>
 		<xsl:apply-templates select="html:tbody"/>
 		<xsl:apply-templates select="html:tr"/>
-		<xsl:text>\end{tabulary}
+		<xsl:text>\end{tabular}
 \end{minipage}
 \end{table}
+
 
 </xsl:text>
 	</xsl:template>
 	
-	<xsl:template match="html:tbody">
+	<xsl:template match="html:tbody[last()]">
 		<xsl:apply-templates select="html:tr"/>
 \bottomrule
+
+</xsl:template>
+
+	<xsl:template match="html:tbody">
+		<xsl:apply-templates select="html:tr"/>
+\midrule
 </xsl:template>
 
 	<xsl:template match="html:col">
@@ -898,7 +899,8 @@
 
 	<xsl:template match="html:thead">
 		<xsl:apply-templates select="html:tr" mode="header"/>
-		<xsl:text>\midrule
+		<xsl:text>
+\midrule
 </xsl:text>
 	</xsl:template>
 	
@@ -919,9 +921,9 @@
 		<xsl:text>
 </xsl:text>
 		<xsl:apply-templates select="html:td|html:th"/>
-		<xsl:text> \\ </xsl:text>
+		<xsl:text> \\</xsl:text>
 		<!-- figure out a way to count columns for \cmidrule{x-y} -->
-		<xsl:apply-templates select="html:td[1]|html:th[1]" mode="cmidrule">
+		<xsl:apply-templates select="html:td[1]|html:th[1]" mode="scmidrule">
 			<xsl:with-param name="col" select="1"/>
 		</xsl:apply-templates>
 	</xsl:template>
