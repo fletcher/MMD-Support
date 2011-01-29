@@ -228,15 +228,13 @@
 
 	<!-- code block -->
 	<xsl:template match="html:pre[child::html:code]">
-		<xsl:text>\begin{adjustwidth}{2.5em}{2.5em}
-\begin{verbatim}
+		<xsl:text>\begin{verbatim}
 
 </xsl:text>
 		<xsl:value-of select="./html:code"/>
 		<xsl:text>
-
 \end{verbatim}
-\end{adjustwidth}
+
 
 </xsl:text>
 	</xsl:template>
