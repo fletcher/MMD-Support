@@ -713,14 +713,21 @@
 		<xsl:text>\begin{figure}
 </xsl:text>
 		<xsl:text>\begin{center}
-</xsl:text>
+\includegraphics[</xsl:text>
+		<xsl:choose>
+			<xsl:when test="@width and @height">
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>keepaspectratio,</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
 		<xsl:if test="@width|@height">
 			<!-- there are dimensions, so use them -->
 			<!-- Basically, we allow any units covered by LaTeX, even
 				if they are not allowed in XHTML.  px is converted to pt.
 				If no units, then assume pt.
 			-->
-			<xsl:text>\resizebox{</xsl:text>
+			<xsl:text>width=</xsl:text>
 			<xsl:choose>
 				<xsl:when test="@width">
 					<xsl:call-template name="replace-substring">
@@ -742,10 +749,10 @@
 					</xsl:if>
 				</xsl:when> 
 				<xsl:otherwise>
-					<xsl:text>!</xsl:text>
+					<xsl:text>\textwidth</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:text>}{</xsl:text>
+			<xsl:text>,height=</xsl:text>
 			<xsl:choose>
 				<xsl:when test="@height">
 					<xsl:call-template name="replace-substring">
@@ -767,20 +774,20 @@
 					</xsl:if>
 				</xsl:when> 
 				<xsl:otherwise>
-					<xsl:text>!</xsl:text>
+					<xsl:text>0.75\textheight</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:text>}{</xsl:text>
+			<xsl:text>]</xsl:text>
 		</xsl:if>
 		<xsl:if test="not(@width|@height)">
 			<!-- if no dimensions, then ensure it fits on page
 				(of course, this also goes to "max zoom"...)
 			 -->
-			 <xsl:text>\resizebox{1\linewidth}{!}{</xsl:text>
+			 <xsl:text>width=\textwidth,height=0.75\textheight]</xsl:text>
 		</xsl:if>
-		<xsl:text>\includegraphics{</xsl:text>
+		<xsl:text>{</xsl:text>
 		<xsl:value-of select="@src"/>
-		<xsl:text>}}
+		<xsl:text>}
 \end{center}
 </xsl:text>
 		<xsl:if test="@title">
