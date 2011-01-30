@@ -648,7 +648,9 @@
 		
 	<!-- definition list - fake it for compatibility with XHTML version -->
     <xsl:template match="html:dl">
-	<xsl:text>\begin{description}</xsl:text>
+	<xsl:text>\begin{description}
+
+</xsl:text>
 <xsl:apply-templates select="node()"/>
         <xsl:text>\end{description}
 
@@ -658,13 +660,18 @@
     <xsl:template match="html:dt">
         <xsl:text>\item[</xsl:text>
         <xsl:apply-templates select="node()"/>
-        <xsl:text>] </xsl:text>
+        <xsl:text>]
+
+</xsl:text>
     </xsl:template>
 
     <xsl:template match="html:dd">
-        <xsl:text> </xsl:text>
         <xsl:apply-templates select="node()"/>
-        <xsl:text></xsl:text>
+        <xsl:if test="not(child::html:p)">
+	<xsl:text>
+
+</xsl:text>
+		</xsl:if>
     </xsl:template>
 
 	<!-- code block -->
