@@ -226,18 +226,6 @@
 		<xsl:value-of select="$newline"/>
 	</xsl:template>
 
-	<!-- code block -->
-	<xsl:template match="html:pre[child::html:code]">
-		<xsl:text>\begin{verbatim}
-
-</xsl:text>
-		<xsl:value-of select="./html:code"/>
-		<xsl:text>
-\end{verbatim}
-
-
-</xsl:text>
-	</xsl:template>
 
 	<!-- no code, so treat as poetry -->
 	<xsl:template match="html:pre">
