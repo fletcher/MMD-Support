@@ -986,9 +986,12 @@
 	<!-- Support for Bibliography to BibTeX conversion -->
 	
 	<xsl:template match="html:span[@class='externalcitation']">
-		<xsl:text>\cite</xsl:text>
-		<xsl:apply-templates select="html:span" mode="citation"/>
-		<xsl:apply-templates select="html:a" mode="citation"/>
+		<xsl:text>~\cite</xsl:text>
+		<xsl:if test="not(starts-with(.,'[#'))">
+			<xsl:value-of select="substring-before(.,'[#')"/>
+		</xsl:if>
+		<xsl:text>{</xsl:text>
+		<xsl:value-of select="substring-before(substring-after(.,'#'),']')"/>
 		<xsl:text>}</xsl:text>
 	</xsl:template>
 
