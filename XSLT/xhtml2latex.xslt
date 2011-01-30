@@ -667,6 +667,19 @@
         <xsl:text></xsl:text>
     </xsl:template>
 
+	<!-- code block -->
+	<xsl:template match="html:pre[child::html:code]">
+		<xsl:text>\begin{verbatim}
+
+</xsl:text>
+		<xsl:value-of select="./html:code"/>
+		<xsl:text>
+\end{verbatim}
+
+
+</xsl:text>
+	</xsl:template>
+
 	<!-- code span -->
 	<xsl:template match="html:code">
 		<xsl:text>\texttt{</xsl:text>
@@ -995,7 +1008,7 @@
 		<xsl:text>}</xsl:text>
 	</xsl:template>
 
-	<xsl:template match="html:span[@class='markdowncitation']">
+	<xsl:template match="html:span[@class='citation']">
 		<xsl:text>~\cite</xsl:text>
 		<xsl:apply-templates select="html:span" mode="citation"/>
 		<xsl:apply-templates select="html:a" mode="markdowncitation"/>
