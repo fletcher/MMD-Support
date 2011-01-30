@@ -555,6 +555,18 @@
 			<xsl:when test="@class = 'reversefootnote'">
 			</xsl:when>
 
+			<xsl:when test="@class = 'citation'">
+			<xsl:text>~\cite</xsl:text>
+	        <xsl:if test="child::html:span[@class='locator']">
+				<xsl:text>[</xsl:text>
+				<xsl:value-of select="html:span[@class='locator']"/>
+				<xsl:text>]</xsl:text>
+			</xsl:if>
+			<xsl:text>{</xsl:text>
+			<xsl:value-of select="html:span[@class='citekey']"/>
+			<xsl:text>}</xsl:text>
+			</xsl:when>
+			
 			<!-- if href is same as the anchor text, then use \href{} 
 				but no footnote -->
 			<!-- let's try \url{} again for line break reasons -->
@@ -719,14 +731,14 @@
 	<xsl:template match="html:em">
 		<xsl:text>{\itshape </xsl:text>
 			<xsl:apply-templates select="node()"/>
-		<xsl:text>} </xsl:text>
+		<xsl:text>}</xsl:text>
 	</xsl:template>
 
 	<!-- strong -->
 	<xsl:template match="html:strong">
 		<xsl:text>\textbf{</xsl:text>
 			<xsl:apply-templates select="node()"/>
-		<xsl:text>} </xsl:text>
+		<xsl:text>}</xsl:text>
 	</xsl:template>
 	
 	<!-- horizontal rule -->
@@ -957,7 +969,7 @@
 		<xsl:text>
 </xsl:text>
 		<xsl:apply-templates select="html:td|html:th"/>
-		<xsl:text> \\</xsl:text>
+		<xsl:text>\\</xsl:text>
 		<!-- figure out a way to count columns for \cmidrule{x-y} -->
 		<xsl:apply-templates select="html:td[1]|html:th[1]" mode="scmidrule">
 			<xsl:with-param name="col" select="1"/>
@@ -983,12 +995,12 @@
 		<xsl:text>
 </xsl:text>
 		<xsl:apply-templates select="html:td|html:th"/>
-		<xsl:text> \\</xsl:text>
+		<xsl:text>\\</xsl:text>
 	</xsl:template>
 
 	<xsl:template match="html:tr">
 		<xsl:apply-templates select="html:td|html:th"/>
-		<xsl:text> \\
+		<xsl:text>\\
 </xsl:text>
 	</xsl:template>
 
@@ -1030,7 +1042,7 @@
 	
 	<xsl:template match="html:span[@class='notcited']">
 		<xsl:text>~\nocite{</xsl:text>
-		<xsl:value-of select="@id"/>
+		<xsl:value-of select="html:span[@class='citekey']"/>
 		<xsl:text>}</xsl:text>
 	</xsl:template>
 
@@ -1055,28 +1067,30 @@
 		<xsl:text></xsl:text>
 	</xsl:template>
 	
-	<xsl:template match="html:div[@class='bibliography']">
+	<xsl:template match="html:div[@class='footnotes'][descendant::html:li[@class='citation']]">
 		<xsl:text>\begin{thebibliography}{</xsl:text>
 		<xsl:value-of select="count(div[@id])"/>
 		<xsl:text>}
 </xsl:text>
-		<xsl:apply-templates select="html:div"/>
+		<xsl:apply-templates select="html:ol/html:li[@class='citation']"/>
 		<xsl:text>
-		
 \end{thebibliography}
-		
+
+
 </xsl:text>
 	</xsl:template>
 				
-	<xsl:template match="html:div[@class='bibliography']/html:div[@id]">
+	<xsl:template match="html:li[@class='citation']">
 		<xsl:text>
-
 \bibitem{</xsl:text>
-		<xsl:value-of select="@id"/>
+		<xsl:value-of select="descendant::html:span[@class='citekey']"/>
 		<xsl:text>}
 </xsl:text>
-		<xsl:apply-templates select="html:p/html:span[@class='item']" mode="citation"/>
-	</xsl:template>	
+		<xsl:apply-templates select="html:p"/>
+		<xsl:text>
+
+</xsl:text>
+	</xsl:template>
 
 	<xsl:template match="html:span[@class='item']" mode="citation">
 		<xsl:apply-templates select="."/>
