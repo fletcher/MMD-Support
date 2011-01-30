@@ -484,9 +484,15 @@
 		<xsl:param name="footnoteId"/>
 		<xsl:if test="parent::html:ol/parent::html:div/@class = 'footnotes'">
 			<xsl:if test="concat('#',@id) = $footnoteId">
-				<xsl:apply-templates select="html:span" mode="glossary"/>
-				<xsl:text>description=</xsl:text>
+				<xsl:text>{</xsl:text>
+				<xsl:value-of select="html:span[@class='glossary name']"/>
+				<xsl:text>}{</xsl:text>
+				<xsl:apply-templates select="html:span[@class='glossary sort']" mode="glossary"/>
+				<xsl:apply-templates select="html:span[@class='glossary name']" mode="glossary"/>
+				<xsl:text>description={</xsl:text>
 				<xsl:apply-templates select="html:p" mode="glossary"/>
+				<xsl:text>}}\glsadd{</xsl:text>
+				<xsl:value-of select="html:span[@class='glossary name']"/>
 				<xsl:text>}</xsl:text>
 			</xsl:if>
 		</xsl:if>
@@ -507,15 +513,15 @@
 	
 	<!-- use these when asked for -->
 	<xsl:template match="html:span[@class='glossary name']" mode="glossary">
-		<xsl:text>{name=</xsl:text>
+		<xsl:text>name={</xsl:text>
 		<xsl:apply-templates select="node()"/>
-		<xsl:text>,</xsl:text>
+		<xsl:text>},</xsl:text>
 	</xsl:template>
 	
 	<xsl:template match="html:span[@class='glossary sort']" mode="glossary">
-		<xsl:text>sort=</xsl:text>
+		<xsl:text>sort={</xsl:text>
 		<xsl:apply-templates select="node()"/>
-		<xsl:text>,</xsl:text>
+		<xsl:text>},</xsl:text>
 	</xsl:template>
 
 	<!-- otherwise, ignore them -->
@@ -539,7 +545,7 @@
 			</xsl:when>
 
 			<xsl:when test="@class = 'footnote glossary'">
-				<xsl:text>\glossary</xsl:text>
+				<xsl:text>\newglossaryentry</xsl:text>
 				<xsl:apply-templates select="/html:html/html:body/html:div[@class]/html:ol/html:li[@id]" mode="glossary">
 					<xsl:with-param name="footnoteId" select="@href"/>
 				</xsl:apply-templates>
