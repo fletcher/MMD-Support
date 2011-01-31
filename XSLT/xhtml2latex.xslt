@@ -640,16 +640,17 @@
 
 	<!-- ordered list -->
 	<xsl:template match="html:ol">
-		<xsl:text>\begin{enumerate}</xsl:text>
+		<xsl:text>\begin{enumerate}
+</xsl:text>
 		<xsl:apply-templates select="*"/>
-		<xsl:value-of select="$newline"/>
 		<xsl:text>\end{enumerate}</xsl:text>
 		<xsl:value-of select="$newline"/>
 	</xsl:template>
 
 	<!-- unordered list -->
 	<xsl:template match="html:ul">
-		<xsl:text>\begin{itemize}</xsl:text>
+		<xsl:text>\begin{itemize}
+</xsl:text>
 		<xsl:apply-templates select="*"/>
 		<xsl:text>\end{itemize}</xsl:text>
 		<xsl:value-of select="$newline"/>
@@ -658,9 +659,9 @@
 	
 	<!-- list item -->
 	<xsl:template match="html:li">
-		<xsl:text>
-\item </xsl:text>
+		<xsl:text>\item </xsl:text>
 		<xsl:apply-templates select="node()"/>
+		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 	</xsl:template>
 		
