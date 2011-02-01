@@ -2,8 +2,9 @@
 
 <!-- clean-text.xslt by Fletcher Penney
 
-	Contains routine to convert special characters within text to
-	LaTeX friendly versions.
+	Contains routine to convert text into a LaTeX-friendly format.
+	
+	Called by xhtml2latex.xslt.
 	
 	Requires MultiMarkdown 3.0 or greater
 	

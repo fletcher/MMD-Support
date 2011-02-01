@@ -2,8 +2,10 @@
 
 <!-- xhtml2latex.xslt by Fletcher Penney
 
-	Contains core routines for converting XHTML to LaTeX, typically 
-	called by another XSLT file, such as memoir.xslt.
+	Contains core routines for converting XHTML to LaTeX.
+	
+	Can also be called by memoir.xslt or beamer.xslt, which contain
+	additional features.
 	
 	Requires MultiMarkdown 3.0 or greater
 	
@@ -753,7 +755,7 @@
 
 	<!-- images -->
 	<xsl:template match="html:img">
-		<xsl:text>\begin{figure}
+		<xsl:text>\begin{figure}[htbp]
 </xsl:text>
 		<xsl:text>\centering
 \includegraphics[</xsl:text>
