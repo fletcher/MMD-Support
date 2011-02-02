@@ -25,6 +25,7 @@ then
 		shift
 	fi
 
+	rm $file_name
 else
 until [ "$*" = "" ]
 do
