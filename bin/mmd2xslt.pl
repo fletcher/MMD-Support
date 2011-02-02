@@ -5,7 +5,26 @@
 if [ $# == 0 ]
 then
 	# No arguments, so use stdin/stdout
-	/usr/local/bin/multimarkdown | xsltproc -nonet -novalid /Users/fletcher/Documents/Dropbox/Active/peg-multimarkdown/Support/XSLT/xhtml2latex.xslt - 
+	
+	# Need a temporary file
+	file_name=`mktemp`
+	
+	cat > $file_name
+	
+	# Determine which stylesheet to use
+	mode=`/usr/local/bin/multimarkdown -e latexmode "$file_name"`
+	
+	if [ "$mode" = "memoir" ]
+	then
+		# Use memoir
+		/usr/local/bin/multimarkdown "$file_name" | xsltproc -nonet -novalid /Users/fletcher/Documents/Dropbox/Active/peg-multimarkdown/Support/XSLT/memoir.xslt -
+		shift
+	else
+		# Use default latex
+		/usr/local/bin/multimarkdown "$file_name" | xsltproc -nonet -novalid /Users/fletcher/Documents/Dropbox/Active/peg-multimarkdown/Support/XSLT/xhtml2latex.xslt -
+		shift
+	fi
+
 else
 until [ "$*" = "" ]
 do
