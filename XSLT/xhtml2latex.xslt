@@ -891,7 +891,7 @@
 		<xsl:apply-templates select="html:caption"/>
 		<xsl:text>\begin{tabular}{@{}</xsl:text>
 		<xsl:apply-templates select="html:col"/>
-		<xsl:text>@{}} \\ \toprule</xsl:text>
+		<xsl:text>@{}} \toprule</xsl:text>
 		<xsl:apply-templates select="html:thead"/>
 		<xsl:apply-templates select="html:tbody"/>
 		<xsl:apply-templates select="html:tr"/>
