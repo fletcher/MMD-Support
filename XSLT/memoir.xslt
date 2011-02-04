@@ -142,99 +142,14 @@
 		<xsl:value-of select="$newline"/>
 	</xsl:template>
 
-	<!-- add support for Appendices - include a part or chapter named 'Appendices' to trigger-->
-	
-	<xsl:template match="html:h2[translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-	'abcdefghijklmnopqrstuvwxyz') = 'appendices']">
-		<xsl:text>\appendixpage*
-\appendix</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
 
-	<xsl:template match="html:h1[translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-	'abcdefghijklmnopqrstuvwxyz') = 'appendices']">
-		<xsl:text>\appendixpage*
-\appendix</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-	<!-- support for abstracts -->
-	
-	<xsl:template match="html:h2[1][translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-	'abcdefghijklmnopqrstuvwxyz') = 'abstract']">
-		<xsl:text>\begin{abstract}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>\label{</xsl:text>
-		<xsl:value-of select="@id"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>\addcontentsline{toc}{chapter}{</xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-	<xsl:template match="html:h2[position()='2'][preceding-sibling::html:h2[position()='1'][translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-		'abcdefghijklmnopqrstuvwxyz') = 'abstract']]">
-		<xsl:text>\end{abstract}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:choose>
-			<xsl:when test="substring(node(), (string-length(node()) - string-length('*')) + 1) = '*'">
-				<xsl:text>\chapter*{}</xsl:text>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:text>\chapter{</xsl:text>
-				<xsl:apply-templates select="node()"/>
-				<xsl:text>}</xsl:text>
-			</xsl:otherwise>
-		</xsl:choose>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>\label{</xsl:text>
-		<xsl:value-of select="@id"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-	<xsl:template match="html:h3[count(preceding-sibling::html:h2) = '1'][preceding-sibling::html:h2[position()='1'][translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-		'abcdefghijklmnopqrstuvwxyz') = 'abstract']]">
-		<xsl:text>\section*{</xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>\label{</xsl:text>
-		<xsl:value-of select="@id"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-	<xsl:template match="html:h4[count(preceding-sibling::html:h2) = '1'][preceding-sibling::html:h2[position()='1'][translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-		'abcdefghijklmnopqrstuvwxyz') = 'abstract']]">
-		<xsl:text>\subsection*{</xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>\label{</xsl:text>
-		<xsl:value-of select="@id"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-
-	<!-- no code, so treat as poetry -->
-	<xsl:template match="html:pre">
-		<xsl:text>\begin{adjustwidth}{4em}{4em}
-\setverbatimfont{\normalfont}
+	<!-- code block -->
+	<xsl:template match="html:pre[child::html:code]">
+		<xsl:text>\begin{adjustwidth}{2.5em}{2.5em}
 \begin{verbatim}
 
 </xsl:text>
-		<xsl:value-of select="."/>
+		<xsl:value-of select="./html:code"/>
 		<xsl:text>
 \end{verbatim}
 \end{adjustwidth}
@@ -242,47 +157,5 @@
 </xsl:text>
 	</xsl:template>
 
-	
-	<!-- epigraph (a blockquote immediately following a header 1-3) -->
-	<xsl:template match="html:blockquote[preceding-sibling::*[1][local-name() = 'h1' or local-name() = 'h2' or local-name() = 'h2' or local-name() = 'h3' ]]">
-		<xsl:text>\epigraph{</xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:text>}
-
-</xsl:text>
-	</xsl:template>
-
-	<!-- epigraph author (a blockquote within blockquote) -->
-	<xsl:template match="html:blockquote[last()][parent::*[preceding-sibling::*[1][local-name() = 'h1' or local-name() = 'h2' or local-name() = 'h2' or local-name() = 'h3']]] ">
-		<xsl:text>}{</xsl:text>
-		<xsl:apply-templates select="node()"/>
-	</xsl:template>
-
-	<!-- Memoir handles glossaries differently -->
-
-	<xsl:template match="html:li" mode="glossary">
-		<xsl:param name="footnoteId"/>
-		<xsl:if test="parent::html:ol/parent::html:div/@class = 'footnotes'">
-			<xsl:if test="concat('#',@id) = $footnoteId">
-				<xsl:apply-templates select="html:span[@class='glossary sort']" mode="glossary"/>
-				<xsl:apply-templates select="html:span[@class='glossary name']" mode="glossary"/>
-				<xsl:text>{</xsl:text>
-				<xsl:apply-templates select="html:p" mode="glossary"/>
-				<xsl:text>}</xsl:text>
-			</xsl:if>
-		</xsl:if>
-	</xsl:template>
-
-	<xsl:template match="html:span[@class='glossary name']" mode="glossary">
-		<xsl:text>{</xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:text>}</xsl:text>
-	</xsl:template>
-	
-	<xsl:template match="html:span[@class='glossary sort']" mode="glossary">
-		<xsl:text>(</xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:text>)</xsl:text>
-	</xsl:template>
 
 </xsl:stylesheet>

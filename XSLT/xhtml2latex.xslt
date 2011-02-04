@@ -571,9 +571,10 @@
 			
 			<!-- if href is same as the anchor text, then use \href{} 
 				but no footnote -->
-			<!-- let's try \url{} again for line break reasons -->
 			<xsl:when test="@href = .">
-				<xsl:text>\url{</xsl:text>
+				<xsl:text>\href{</xsl:text>
+				<xsl:value-of select="@href"/>
+				<xsl:text>}{</xsl:text>
 				<xsl:call-template name="clean-text">
 					<xsl:with-param name="source">
 						<xsl:value-of select="@href"/>
@@ -867,7 +868,7 @@
 \centering
 </xsl:text>
 		<xsl:apply-templates select="html:caption"/>
-		<xsl:text>\begin{tabular}{@{}p{0.5\linewidth}@{}} \\ \toprule </xsl:text>
+		<xsl:text>\begin{tabular}{@{}p{0.5\linewidth}@{}} \toprule </xsl:text>
 		<xsl:apply-templates select="html:thead"/>
 		<xsl:apply-templates select="html:tbody"/>
 		<xsl:apply-templates select="html:tr"/>
