@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
 
-<!-- memoir.xslt by Fletcher Penney
+<!-- beamer.xslt by Fletcher Penney
 
 	Adds features to xhtml2latex.xslt that are designed to take advantage
-	of LaTeX features within the memoir class. 
+	of LaTeX features within the beamer class. 
 	
 	Requires MultiMarkdown 3.0 or greater
 	
 -->
 
 <!-- 
-# Copyright (C) 2005-2011  Fletcher T. Penney <fletcher@fletcherpenney.net>
+# Copyright (C) 2011  Fletcher T. Penney <fletcher@fletcherpenney.net>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -40,6 +40,14 @@
 	<xsl:template match="/">
 		<xsl:apply-templates select="html:html/html:head"/>
 		<xsl:apply-templates select="html:html/html:body"/>
+	</xsl:template>
+
+	<xsl:template match="html:body">
+		<body>
+			<xsl:apply-templates select="html:h1|html:h2|html:h3|html:h4|html:h5|html:h6"/>
+			<xsl:apply-templates select="/html:html/html:head/html:meta[translate(@name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+			'abcdefghijklmnopqrstuvwxyz') = 'latexfooter']"/>
+		</body>
 	</xsl:template>
 
 
@@ -95,13 +103,26 @@
 	</xsl:template>
 
 	<xsl:template match="html:h3">
-		<xsl:text>\section{</xsl:text>
+		<xsl:text>\begin{frame}</xsl:text>
+		<xsl:variable name="children" select="count(following-sibling::*) - count(following-sibling::*[local-name() = 'h1' or local-name() = 'h2' or local-name() = 'h3' or local-name() = 'h4' or local-name() = 'h5' or local-name() = 'h6'][1]/following-sibling::*) - count(following-sibling::*[local-name() = 'h1' or local-name() = 'h2' or local-name() = 'h3' or local-name() = 'h4' or local-name() = 'h5' or local-name() = 'h6'][1])"/>
+		<xsl:if test="count(following-sibling::*[position() &lt;= $children][local-name() = 'pre']) &gt; 0">
+			<xsl:text>[fragile]</xsl:text>
+		</xsl:if>
+		<xsl:text>
+
+\frametitle{</xsl:text>
 		<xsl:apply-templates select="node()"/>
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline"/>
 		<xsl:text>\label{</xsl:text>
 		<xsl:value-of select="@id"/>
 		<xsl:text>}</xsl:text>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$newline"/>
+
+		<xsl:apply-templates select="following-sibling::*[position() &lt;= $children]"/>
+		<xsl:text>\end{frame}</xsl:text>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 	</xsl:template>
@@ -142,17 +163,18 @@
 		<xsl:value-of select="$newline"/>
 	</xsl:template>
 
+	<xsl:template match="html:meta[translate(@name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+	'abcdefghijklmnopqrstuvwxyz') = 'latexfooter']">
+		<xsl:text>\mode&lt;all>
+\input{</xsl:text>
+		<xsl:call-template name="clean-text">
+			<xsl:with-param name="source">
+				<xsl:value-of select="@content"/>
+			</xsl:with-param>
+		</xsl:call-template>
+		<xsl:text>}
 
-	<!-- code block that is not a child element -->
-	<xsl:template match="html:pre[child::html:code][parent::html:body]">
-		<xsl:text>\begin{adjustwidth}{2.5em}{2.5em}
-\begin{verbatim}
-
-</xsl:text>
-		<xsl:value-of select="./html:code"/>
-		<xsl:text>
-\end{verbatim}
-\end{adjustwidth}
+\end{document}\mode*
 
 </xsl:text>
 	</xsl:template>
