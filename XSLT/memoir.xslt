@@ -143,8 +143,8 @@
 	</xsl:template>
 
 
-	<!-- code block -->
-	<xsl:template match="html:pre[child::html:code]">
+	<!-- code block that is not a child element -->
+	<xsl:template match="html:pre[child::html:code][parent::html:body]">
 		<xsl:text>\begin{adjustwidth}{2.5em}{2.5em}
 \begin{verbatim}
 
