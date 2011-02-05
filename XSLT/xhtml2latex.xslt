@@ -652,6 +652,7 @@
 		<xsl:apply-templates select="*"/>
 		<xsl:text>\end{enumerate}</xsl:text>
 		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$newline"/>
 	</xsl:template>
 
 	<!-- unordered list -->
@@ -665,13 +666,18 @@
 	</xsl:template>
 	
 	<!-- list item -->
+	<xsl:template match="html:li[child::html:p]">
+		<xsl:text>\item </xsl:text>
+		<xsl:apply-templates select="node()"/>
+	</xsl:template>
+
 	<xsl:template match="html:li">
 		<xsl:text>\item </xsl:text>
 		<xsl:apply-templates select="node()"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 	</xsl:template>
-		
+
 	<!-- definition list - fake it for compatibility with XHTML version -->
     <xsl:template match="html:dl">
 	<xsl:text>\begin{description}
@@ -728,6 +734,7 @@
 	<!-- blockquote -->
 	<xsl:template match="html:blockquote">
 		<xsl:text>\begin{quote}
+
 </xsl:text>
 		<xsl:apply-templates select="node()"/>
 		<xsl:text>\end{quote}

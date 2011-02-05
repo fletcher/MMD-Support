@@ -75,31 +75,6 @@
 </xsl:text>
 	</xsl:template>
 
-	<!-- list item -->
-	<xsl:template match="html:li[child::html:p]">
-		<xsl:text>\item </xsl:text>
-		<xsl:apply-templates select="node()"/>
-	</xsl:template>
-
-	<xsl:template match="html:li">
-		<xsl:text>\item </xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-	<xsl:template match="html:li[@class='citation']">
-		<xsl:text>
-\bibitem{</xsl:text>
-		<xsl:value-of select="descendant::html:span[@class='citekey']"/>
-		<xsl:text>}
-</xsl:text>
-		<xsl:apply-templates select="html:p"/>
-		<xsl:text>
-
-</xsl:text>
-	</xsl:template>
-
 	<!-- Convert headers into chapters, etc -->
 	
 	<xsl:template match="html:h1">
