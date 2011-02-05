@@ -592,7 +592,7 @@
 					<xsl:with-param name="source">
 						<xsl:value-of select="substring-after(@href,'mailto:')"/>
 					</xsl:with-param>
-				</xsl:call-template>		
+				</xsl:call-template>
 				<xsl:text>}</xsl:text>
 			</xsl:when>
 			
@@ -601,7 +601,11 @@
 				<xsl:choose>
 					<xsl:when test=". = ''">
 						<xsl:text>\autoref{</xsl:text>
-						<xsl:value-of select="substring-after(@href,'#')"/>
+						<xsl:call-template name="lower-case">
+							<xsl:with-param name="source">
+								<xsl:value-of select="substring-after(@href,'#')"/>
+							</xsl:with-param>
+						</xsl:call-template>
 						<xsl:text>}</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
@@ -1079,7 +1083,6 @@
 		<xsl:apply-templates select="html:ol/html:li[@class='citation']"/>
 		<xsl:text>
 \end{thebibliography}
-
 
 </xsl:text>
 	</xsl:template>

@@ -42,6 +42,14 @@
 		<xsl:value-of select="."/>
 	</xsl:template>
 	
+	<!-- Utility function to convert to lower case -->
+	<xsl:template name="lower-case">
+		<xsl:param name="source" />
+		<xsl:variable name="smallcase" select="'abcdefghijklmnopqrstuvwxyz'" />
+		<xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
+		<xsl:value-of select="translate($source, $uppercase, $smallcase)" />
+	</xsl:template>
+	
 	<!-- This is a "pointer" function that can be over-ridden easily
 	 	in order to add quick additional changes -->
 	<xsl:template name="clean-text">
