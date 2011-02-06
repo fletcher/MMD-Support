@@ -1,6 +1,14 @@
 #!/bin/sh
-
-# convert XHTML to LaTeX using XSLT
+#
+# mmd2xslt --- MultiMarkdown convenience script
+#	<http://fletcherpenney.net/multimarkdown/>
+#	Fletcher T. Penney
+#
+# Pass arguments on to the binary to convert text to LaTeX
+#	using XSLT files after first converting to XHTML
+#
+#	This replicates the approach used in MMD 2.0
+#
 
 if [ $# == 0 ]
 then
@@ -48,12 +56,11 @@ do
 		# Use memoir
 		/usr/local/bin/multimarkdown "$1" | xsltproc -nonet -novalid /Users/fletcher/Documents/Dropbox/Active/peg-multimarkdown/Support/XSLT/memoir.xslt -  > "$file_name.tex"
 		shift
-	else if [ "$mode" = "memoir" ]
+	else if [ "$mode" = "beamer" ]
 	then
 		# Use memoir
-		/usr/local/bin/multimarkdown "$1" | xsltproc -nonet -novalid /Users/fletcher/Documents/Dropbox/Active/peg-multimarkdown/Support/XSLT/memoir.xslt -  > "$file_name.tex"
+		/usr/local/bin/multimarkdown "$1" | xsltproc -nonet -novalid /Users/fletcher/Documents/Dropbox/Active/peg-multimarkdown/Support/XSLT/beamer.xslt -  > "$file_name.tex"
 		shift
-
 	else
 		# Use default latex
 		/usr/local/bin/multimarkdown "$1" | xsltproc -nonet -novalid /Users/fletcher/Documents/Dropbox/Active/peg-multimarkdown/Support/XSLT/xhtml2latex.xslt -  > "$file_name.tex"
@@ -62,5 +69,3 @@ do
 	fi
 done
 fi
-
-

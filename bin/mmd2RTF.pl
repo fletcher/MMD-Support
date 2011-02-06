@@ -1,6 +1,14 @@
 #!/bin/sh
-
-# convert to RTF using textutil - only works on Mac OS X
+#
+# mmd2RTF --- MultiMarkdown convenience script
+#	<http://fletcherpenney.net/multimarkdown/>
+#	Fletcher T. Penney
+#
+# Pass arguments on to the binary to convert text to RTF
+#	using the textutil program included with Mac OS X
+#
+#	Will not work on Windows or *nix
+#
 
 if [ $# == 0 ]
 then
