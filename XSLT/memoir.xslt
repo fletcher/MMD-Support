@@ -157,5 +157,7 @@
 </xsl:text>
 	</xsl:template>
 
+	<xsl:template match="*[@class='noxslt']">
+	</xsl:template>
 
 </xsl:stylesheet>

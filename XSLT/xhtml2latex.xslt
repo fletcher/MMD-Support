@@ -1047,5 +1047,12 @@
 		<xsl:value-of select="$newline"/>
 	</xsl:template>
 
+	<xsl:template match="html:div">
+		<xsl:apply-templates select="node()"/>
+		<xsl:value-of select="$newline"/>
+	</xsl:template>
 
+	<xsl:template match="*[@class='noxslt']">
+	</xsl:template>
+	
 </xsl:stylesheet>

@@ -99,12 +99,12 @@
 	<xsl:template match="html:h2">
 		<xsl:choose>
 			<xsl:when test="substring(node(), (string-length(node()) - string-length('*')) + 1) = '*'">
-				<xsl:text>\chapter*{</xsl:text>
+				<xsl:text>\section*{</xsl:text>
 				<xsl:apply-templates select="node()"/>
 				<xsl:text>}</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:text>\chapter{</xsl:text>
+				<xsl:text>\section{</xsl:text>
 				<xsl:apply-templates select="node()"/>
 				<xsl:text>}</xsl:text>
 			</xsl:otherwise>
@@ -143,31 +143,19 @@
 	</xsl:template>
 
 	<xsl:template match="html:h4">
-		<xsl:text>\subsection{</xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>\label{</xsl:text>
-		<xsl:value-of select="@id"/>
-		<xsl:text>}</xsl:text>
+		<xsl:text>\mode&lt;article>{</xsl:text>
+		<xsl:variable name="children" select="count(following-sibling::*) - count(following-sibling::*[local-name() = 'h1' or local-name() = 'h2' or local-name() = 'h3' or local-name() = 'h4' or local-name() = 'h5' or local-name() = 'h6'][1]/following-sibling::*) - count(following-sibling::*[local-name() = 'h1' or local-name() = 'h2' or local-name() = 'h3' or local-name() = 'h4' or local-name() = 'h5' or local-name() = 'h6'][1])"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-	<xsl:template match="html:h5">
-		<xsl:text>\subsubsection{</xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline"/>
-		<xsl:text>\label{</xsl:text>
-		<xsl:value-of select="@id"/>
+		<xsl:apply-templates select="following-sibling::*[position() &lt;= $children]"/>
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 	</xsl:template>
 
-	<xsl:template match="html:h6">
-		<xsl:text>{\itshape </xsl:text>
+	<xsl:template match="html:h5|html:h6">
+		<xsl:text>{\\itshape </xsl:text>
 		<xsl:apply-templates select="node()"/>
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline"/>
@@ -194,5 +182,7 @@
 </xsl:text>
 	</xsl:template>
 
+	<xsl:template match="*[@class='noxslt']">
+	</xsl:template>
 
 </xsl:stylesheet>
