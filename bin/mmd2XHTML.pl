@@ -2,7 +2,7 @@
 #
 # mmd --- MultiMarkdown convenience script
 #	<http://fletcherpenney.net/multimarkdown/>
-#	Fletcher T. Penney
+#	Copyright (c) 2010-2011 Fletcher T. Penney
 #
 # Pass arguments on to the binary to convert text to XHTML
 #
