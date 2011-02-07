@@ -10,6 +10,9 @@
 #	This replicates the approach used in MMD 2.0
 #
 
+# Be sure to include multimarkdown in our PATH
+export PATH="/usr/local/bin:$PATH"
+
 
 if [ $# == 0 ]
 then
