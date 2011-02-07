@@ -10,33 +10,37 @@
 #	This replicates the approach used in MMD 2.0
 #
 
+
 if [ $# == 0 ]
 then
 	# No arguments, so use stdin/stdout
 	
 	# Need a temporary file
-	file_name=`mktemp`
+	file_name=`mktemp mmdtempXXXX.txt`
 	
 	cat > $file_name
 	
 	# Determine which stylesheet to use
-	mode=`/usr/local/bin/multimarkdown -e latexmode "$file_name"`
-	
+	mode=`multimarkdown -e latexmode "$file_name"`
+
+	# Locate XSLT directory
+	xslt_path=`dirname "$0"`
+
 	if [ "$mode" = "memoir" ]
 	then
 		# Use memoir
-		/usr/local/bin/multimarkdown "$file_name" | xsltproc -nonet -novalid /Users/fletcher/Documents/Dropbox/Active/peg-multimarkdown/Support/XSLT/memoir.xslt -
+		multimarkdown "$file_name" | xsltproc -nonet -novalid $xslt_path/../XSLT/memoir.xslt -
 		shift
 	else
 		if [ "$mode" = "beamer" ]
 		then
 			# Use memoir
-			/usr/local/bin/multimarkdown "$file_name" | xsltproc -nonet -novalid /Users/fletcher/Documents/Dropbox/Active/peg-multimarkdown/Support/XSLT/beamer.xslt -
+			multimarkdown "$file_name" | xsltproc -nonet -novalid $xslt_path/../XSLT/beamer.xslt -
 			shift
 		else
 
 		# Use default latex
-		/usr/local/bin/multimarkdown "$file_name" | xsltproc -nonet -novalid /Users/fletcher/Documents/Dropbox/Active/peg-multimarkdown/Support/XSLT/xhtml2latex.xslt -
+		multimarkdown "$file_name" | xsltproc -nonet -novalid $xslt_path/../XSLT/xhtml2latex.xslt -
 		shift
 		fi
 	fi
@@ -49,21 +53,24 @@ do
 	file_name=`echo $1|cut -d. -f1 `
 	
 	# Determine which stylesheet to use
-	mode=`/usr/local/bin/multimarkdown -e latexmode "$1"`
+	mode=`multimarkdown -e latexmode "$1"`
+	
+	# Locate XSLT directory
+	xslt_path=`dirname "$0"`
 	
 	if [ "$mode" = "memoir" ]
 	then
 		# Use memoir
-		/usr/local/bin/multimarkdown "$1" | xsltproc -nonet -novalid /Users/fletcher/Documents/Dropbox/Active/peg-multimarkdown/Support/XSLT/memoir.xslt -  > "$file_name.tex"
+		multimarkdown "$1" | xsltproc -nonet -novalid $xslt_path/../XSLT/memoir.xslt -  > "$file_name.tex"
 		shift
 	else if [ "$mode" = "beamer" ]
 	then
 		# Use memoir
-		/usr/local/bin/multimarkdown "$1" | xsltproc -nonet -novalid /Users/fletcher/Documents/Dropbox/Active/peg-multimarkdown/Support/XSLT/beamer.xslt -  > "$file_name.tex"
+		multimarkdown "$1" | xsltproc -nonet -novalid $xslt_path/../XSLT/beamer.xslt -  > "$file_name.tex"
 		shift
 	else
 		# Use default latex
-		/usr/local/bin/multimarkdown "$1" | xsltproc -nonet -novalid /Users/fletcher/Documents/Dropbox/Active/peg-multimarkdown/Support/XSLT/xhtml2latex.xslt -  > "$file_name.tex"
+		multimarkdown "$1" | xsltproc -nonet -novalid $xslt_path/../XSLT/xhtml2latex.xslt -  > "$file_name.tex"
 		shift
 		fi
 	fi
