@@ -10,7 +10,7 @@
 # Be sure to include multimarkdown in our PATH
 export PATH="/usr/local/bin:$PATH"
 
-if [ $# == 0 ]
+if [ $# = 0 ]
 then
 	multimarkdown
 else
