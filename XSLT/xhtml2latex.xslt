@@ -65,6 +65,11 @@
 </xsl:text>
 	</xsl:template>
 
+	<xsl:template match="html:div">
+		<xsl:apply-templates select="node()"/>
+		<xsl:value-of select="$newline"/>
+	</xsl:template>
+
 
 	<xsl:template match="html:meta">
 		<xsl:choose>
@@ -1044,11 +1049,6 @@
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-	<xsl:template match="html:div">
-		<xsl:apply-templates select="node()"/>
 		<xsl:value-of select="$newline"/>
 	</xsl:template>
 
