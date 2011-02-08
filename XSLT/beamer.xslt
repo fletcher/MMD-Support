@@ -155,7 +155,7 @@
 	</xsl:template>
 
 	<xsl:template match="html:h5|html:h6">
-		<xsl:text>{\\itshape </xsl:text>
+		<xsl:text>\emph{</xsl:text>
 		<xsl:apply-templates select="node()"/>
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline"/>

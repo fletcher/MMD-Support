@@ -509,7 +509,7 @@
 
 	<!-- emphasis -->
 	<xsl:template match="html:em">
-		<xsl:text>{\itshape </xsl:text>
+		<xsl:text>\emph{</xsl:text>
 			<xsl:apply-templates select="node()"/>
 		<xsl:text>}</xsl:text>
 	</xsl:template>
