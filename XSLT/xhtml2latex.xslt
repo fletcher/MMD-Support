@@ -961,10 +961,10 @@
 	<xsl:template match="html:h1">
 		<xsl:choose>
 			<xsl:when test="substring(node(), (string-length(node()) - string-length('*')) + 1) = '*'">
-				<xsl:text>\section*{}</xsl:text>
+				<xsl:text>\part*{}</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:text>\section{</xsl:text>
+				<xsl:text>\part{</xsl:text>
 				<xsl:apply-templates select="node()"/>
 				<xsl:text>}</xsl:text>
 			</xsl:otherwise>
@@ -973,7 +973,6 @@
 		<xsl:text>\label{</xsl:text>
 		<xsl:value-of select="@id"/>
 		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 	</xsl:template>
@@ -981,12 +980,12 @@
 	<xsl:template match="html:h2">
 		<xsl:choose>
 			<xsl:when test="substring(node(), (string-length(node()) - string-length('*')) + 1) = '*'">
-				<xsl:text>\subsection*{</xsl:text>
+				<xsl:text>\chapter*{</xsl:text>
 				<xsl:apply-templates select="node()"/>
 				<xsl:text>}</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:text>\subsection{</xsl:text>
+				<xsl:text>\chapter{</xsl:text>
 				<xsl:apply-templates select="node()"/>
 				<xsl:text>}</xsl:text>
 			</xsl:otherwise>
@@ -997,10 +996,33 @@
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
 	</xsl:template>
 
 	<xsl:template match="html:h3">
+		<xsl:text>\section{</xsl:text>
+		<xsl:apply-templates select="node()"/>
+		<xsl:text>}</xsl:text>
+		<xsl:value-of select="$newline"/>
+		<xsl:text>\label{</xsl:text>
+		<xsl:value-of select="@id"/>
+		<xsl:text>}</xsl:text>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$newline"/>
+	</xsl:template>
+
+	<xsl:template match="html:h4">
+		<xsl:text>\subsection{</xsl:text>
+		<xsl:apply-templates select="node()"/>
+		<xsl:text>}</xsl:text>
+		<xsl:value-of select="$newline"/>
+		<xsl:text>\label{</xsl:text>
+		<xsl:value-of select="@id"/>
+		<xsl:text>}</xsl:text>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$newline"/>
+	</xsl:template>
+
+	<xsl:template match="html:h5">
 		<xsl:text>\subsubsection{</xsl:text>
 		<xsl:apply-templates select="node()"/>
 		<xsl:text>}</xsl:text>
@@ -1010,44 +1032,16 @@
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-	<xsl:template match="html:h4">
-		<xsl:text>\noindent\textbf{</xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>\label{</xsl:text>
-		<xsl:value-of select="@id"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-	<xsl:template match="html:h5">
-		<xsl:text>\noindent\textbf{</xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>\label{</xsl:text>
-		<xsl:value-of select="@id"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
 	</xsl:template>
 
 	<xsl:template match="html:h6">
-		<xsl:text>\noindent\textbf{</xsl:text>
+		<xsl:text>\paragraph{</xsl:text>
 		<xsl:apply-templates select="node()"/>
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline"/>
 		<xsl:text>\label{</xsl:text>
 		<xsl:value-of select="@id"/>
 		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 	</xsl:template>

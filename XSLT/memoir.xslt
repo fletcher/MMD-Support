@@ -42,7 +42,6 @@
 		<xsl:apply-templates select="html:html/html:body"/>
 	</xsl:template>
 
-
 	<!-- Rename Bibliography -->
 	<xsl:template name="rename-bibliography">
 		<xsl:param name="source" />
@@ -51,97 +50,6 @@
 		<xsl:text>}
 </xsl:text>
 	</xsl:template>
-
-	<!-- Convert headers into chapters, etc -->
-	
-	<xsl:template match="html:h1">
-		<xsl:choose>
-			<xsl:when test="substring(node(), (string-length(node()) - string-length('*')) + 1) = '*'">
-				<xsl:text>\part*{}</xsl:text>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:text>\part{</xsl:text>
-				<xsl:apply-templates select="node()"/>
-				<xsl:text>}</xsl:text>
-			</xsl:otherwise>
-		</xsl:choose>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>\label{</xsl:text>
-		<xsl:value-of select="@id"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-	<xsl:template match="html:h2">
-		<xsl:choose>
-			<xsl:when test="substring(node(), (string-length(node()) - string-length('*')) + 1) = '*'">
-				<xsl:text>\chapter*{</xsl:text>
-				<xsl:apply-templates select="node()"/>
-				<xsl:text>}</xsl:text>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:text>\chapter{</xsl:text>
-				<xsl:apply-templates select="node()"/>
-				<xsl:text>}</xsl:text>
-			</xsl:otherwise>
-		</xsl:choose>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>\label{</xsl:text>
-		<xsl:value-of select="@id"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-	<xsl:template match="html:h3">
-		<xsl:text>\section{</xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>\label{</xsl:text>
-		<xsl:value-of select="@id"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-	<xsl:template match="html:h4">
-		<xsl:text>\subsection{</xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>\label{</xsl:text>
-		<xsl:value-of select="@id"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-	<xsl:template match="html:h5">
-		<xsl:text>\subsubsection{</xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>\label{</xsl:text>
-		<xsl:value-of select="@id"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
-	<xsl:template match="html:h6">
-		<xsl:text>\emph{</xsl:text>
-		<xsl:apply-templates select="node()"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>\label{</xsl:text>
-		<xsl:value-of select="@id"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
-	</xsl:template>
-
 
 	<!-- code block that is not a child element -->
 	<xsl:template match="html:pre[child::html:code][parent::html:body]">
