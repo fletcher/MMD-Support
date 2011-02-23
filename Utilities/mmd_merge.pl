@@ -52,6 +52,7 @@ sub mergeLines {
 			local $/;
 			my $file = <FILE>;
 			close FILE;
+			$file .= "\n\n";
 			
 			for (my $i = 0; $i< $indent; $i++) {
 				$file =~ s/^\#/##/gm;
