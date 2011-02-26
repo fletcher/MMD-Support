@@ -1,10 +1,10 @@
 #!/bin/sh
 #
-# opml2xslt --- MultiMarkdown convenience script
+# opml2opml --- MultiMarkdown convenience script
 #	<http://fletcherpenney.net/multimarkdown/>
 #	Copyright (c) 2010-2011 Fletcher T. Penney
 #
-# Convert "MMD" styled OPML file to HTML
+# Convert "MMD" styled OPML file to MultiMarkdown text
 #
 
 # Be sure to include multimarkdown in our PATH
