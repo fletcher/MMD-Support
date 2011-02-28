@@ -328,7 +328,7 @@
 			</xsl:when>
 
 			<xsl:when test="@class = 'citation'">
-			<xsl:text>~\cite</xsl:text>
+			<xsl:text>~\citep</xsl:text>
 	        <xsl:if test="child::html:span[@class='locator']">
 				<xsl:text>[</xsl:text>
 				<xsl:value-of select="html:span[@class='locator']"/>
@@ -809,7 +809,7 @@
 	<!-- Support for Bibliography to BibTeX conversion -->
 	
 	<xsl:template match="html:span[@class='externalcitation']">
-		<xsl:text>~\cite</xsl:text>
+		<xsl:text>~\citep</xsl:text>
 		<xsl:if test="not(starts-with(.,'[#'))">
 			<xsl:value-of select="substring-before(.,'[#')"/>
 		</xsl:if>
@@ -819,7 +819,7 @@
 	</xsl:template>
 
 	<xsl:template match="html:span[@class='citation']">
-		<xsl:text>~\cite</xsl:text>
+		<xsl:text>~\citep</xsl:text>
 		<xsl:apply-templates select="html:span" mode="citation"/>
 		<xsl:apply-templates select="html:a" mode="markdowncitation"/>
 		<xsl:text>}</xsl:text>
