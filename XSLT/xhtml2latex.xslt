@@ -401,16 +401,27 @@
 					<xsl:with-param name="source">
 						<xsl:value-of select="."/>
 					</xsl:with-param>
-				</xsl:call-template>		
-				<xsl:text>}\footnote{\href{</xsl:text>
-				<xsl:value-of select="@href"/>
-				<xsl:text>}{</xsl:text>
-				<xsl:call-template name="clean-text">
-					<xsl:with-param name="source">
+				</xsl:call-template>
+				<xsl:text>}</xsl:text>
+				<xsl:choose>
+					<xsl:when test="parent::*[local-name() = 'h1']"/>
+					<xsl:when test="parent::*[local-name() = 'h2']"/>
+					<xsl:when test="parent::*[local-name() = 'h3']"/>
+					<xsl:when test="parent::*[local-name() = 'h4']"/>
+					<xsl:when test="parent::*[local-name() = 'h5']"/>
+					<xsl:when test="parent::*[local-name() = 'h6']"/>
+					<xsl:otherwise>
+						<xsl:text>\footnote{\href{</xsl:text>
 						<xsl:value-of select="@href"/>
-					</xsl:with-param>
-				</xsl:call-template>		
-				<xsl:text>}}</xsl:text>
+						<xsl:text>}{</xsl:text>
+						<xsl:call-template name="clean-text">
+							<xsl:with-param name="source">
+								<xsl:value-of select="@href"/>
+							</xsl:with-param>
+						</xsl:call-template>
+						<xsl:text>}}</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
