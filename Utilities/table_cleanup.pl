@@ -279,6 +279,10 @@ $text =~ s{
 		}
 		}
 		
+		# Clean up end of line so that there are two trailing spaces
+		$result =~ s/ *$//;
+		$result =~ s/([^ ]) *$/$1  /;
+		
 		$result;
 	}xmge;
 	
