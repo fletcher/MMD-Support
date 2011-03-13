@@ -1,0 +1,82 @@
+#!/bin/sh
+#
+# mmd2xhtml-xslt --- MultiMarkdown convenience script
+#	<http://fletcherpenney.net/multimarkdown/>
+#	Copyright (c) 2010-2011 Fletcher T. Penney
+#
+# Pass arguments on to the binary to convert text to customized XHTML
+#	using XSLT files after first converting to XHTML
+#
+
+
+# Be sure to include multimarkdown in our PATH
+export PATH="/usr/local/bin:$PATH"
+
+
+# Locate XSLT directory
+xslt_path=`dirname "$0"`
+
+
+# Define subroutine to find proper XSLT to use
+chooseXsltForFilename()
+{
+	# Is stylesheet defined for XHTML?
+	mode=`multimarkdown -e xhtmlxslt "$1"`
+	
+	if [ "$mode" = "" ]
+	then
+		# If not, then look for HTML mode
+		mode=`multimarkdown -e htmlxslt "$1"`
+	fi
+
+	if [ "$mode" != "" ]
+	then
+		# Trim extension if present
+		mode=`echo $mode|cut -d. -f1 `
+		echo "$mode.xslt"
+	fi
+}
+
+
+if [ $# = 0 ]
+then
+	# No arguments, so use stdin/stdout
+	
+	# Need a temporary file
+	file_name=`mktemp mmdtempXXXX.txt`
+	
+	cat > $file_name
+	
+	# Determine stylesheet to use
+	mode=`chooseXsltForFilename "$file_name"`
+
+	if [ "$mode" = "" ]
+	then
+		multimarkdown "$file_name"
+	else
+		multimarkdown "$file_name" | xsltproc -nonet -novalid $xslt_path/../XSLT/$mode -
+	fi
+	
+	shift
+	rm $file_name
+else
+until [ "$*" = "" ]
+do
+	# process each argument separately
+	file_name=`echo $1|cut -d. -f1 `
+	
+	# Determine stylesheet to use
+	mode=`chooseXsltForFilename "$1"`
+	
+	if [ "$mode" = "" ]
+	then
+		multimarkdown "$1" > "$file_name.html"
+	else
+		multimarkdown "$1" | xsltproc -nonet -novalid $xslt_path/../XSLT/$mode - > "$file_name.html"
+	fi
+	
+	shift
+done
+fi
+
+
