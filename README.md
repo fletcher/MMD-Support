@@ -1,29 +1,35 @@
-This directory acts as a  replacement for the original MultiMarkdown directory
-from version 2.0.
+This directory  acts as a  replacement for the original  MultiMarkdown "Common
+Installation" directory  from version  2.0. MultiMarkdown  itself is  a single
+binary, and there are  also a couple of utility scripts  that are installed to
+simplify  things  (`mmd`,  `mmd2tex`,   `mm2opml`,  `mmd2odf`).  This  support
+installation adds a  few more utility scripts in the  `bin` directory. It also
+adds support for using XSLT to  customize the LaTeX output from MultiMarkdown,
+or to customize other output formats.
 
-MMD version 3 is  a single binary, but for more  complicated setups some users
-may like to use the XSLT features from version 2 for more customization.
+Most  users do  not need  to use  XSLT to  achieve their  desired output  from
+MultiMarkdown, but it's always an option.
 
-For  now, this  feature  is unsupported,  and for  "experts  only." Once  it's
-finished,  the instructions  will be  improved, and  I will  be able  to offer
-better support for it.
+More importantly,  this package will replace  the scripts used in  the "Common
+Installation" to allow programs like  Scrivener and TextMate to interface with
+MultiMarkdown 3.0.
+
 
 In general, the scripts  in `bin` act as shortcuts to  the binary with certain
 command-line options to  emulate the behavior of the  old convenience scripts.
 The files  in `XSLT` are  modifications to the  original XSLT files  that work
 with MMD version 3. So now, in fact,  there are two routes to convert MMD into
 LaTeX --- one is to use `multimarkdown -t  latex`, and the other is to use the
-`mmd2xslt` script to convert MMD into XHTML and then into LaTeX by applying an
-XSLT  file. This  second  route  is significantly  slower,  and slightly  more
-complicated, and requires that the XSLT files  be in the right place; it does,
-however, offer a greater level of customization for MultiMarkdown "experts."
+`mmd2tex-xslt`  script to  convert  MMD  into XHTML  and  then  into LaTeX  by
+applying an XSLT file. This second route is significantly slower, and slightly
+more complicated, and requires  that the XSLT files be in  the right place; it
+does,  however,  offer a  greater  level  of customization  for  MultiMarkdown
+"experts."
 
-These shell scripts will run on Mac OS X or *nix.
+These shell scripts will  run on Mac OS X or *nix. I  suppose they will run on
+Windows with the proper  support files installed. I will leave  this up to the
+user.
 
-To use them on a Mac with  Scrivener, TextMate, or other applications that use
-the "Common" installation, simply rename this directory to `MultiMarkdown` and
-place it in an appropriate location:
+To   install  on   a  Mac,   simply  download   the  MultiMarkdown-Support-Mac
+[installer]. It will place the directory in the proper location.
 
-* ~/Library/Application Support/MultiMarkdown
-* /Library/Application Support/MultiMarkdown
-
+[installer]: https://github.com/fletcher/peg-multimarkdown/downloads
