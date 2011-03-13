@@ -1,10 +1,10 @@
 #!/bin/sh
 #
-# opml2mmd --- MultiMarkdown convenience script
+# opml2tex --- MultiMarkdown convenience script
 #	<http://fletcherpenney.net/multimarkdown/>
 #	Copyright (c) 2010-2011 Fletcher T. Penney
 #
-# Convert "MMD" styled OPML file to MultiMarkdown text
+# Convert "MMD" styled OPML file to LaTeX
 #
 
 # Be sure to include multimarkdown in our PATH
@@ -17,8 +17,8 @@ if [ $# = 0 ]
 then
 	# No arguments, so use stdin/stdout
 
-	# XSLT to convert OPML to MMD
-	xsltproc -nonet -novalid "$xslt_path/../XSLT/opml2mmd.xslt" -
+	# XSLT to convert OPML to MMD, then use MMD to create LaTeX
+	xsltproc -nonet -novalid $xslt_path/../XSLT/opml2mmd.xslt - | multimarkdown -t latex
 	shift
 
 else
@@ -26,9 +26,9 @@ until [ "$*" = "" ]
 do
 	# process each argument separately
 	file_name=`echo $1|cut -d. -f1 `
-	
-	# XSLT to convert OPML to MMD
-	xsltproc -nonet -novalid "$xslt_path/../XSLT/opml2mmd.xslt" "$1" > "$file_name.txt"
+
+	# XSLT to convert OPML to MMD, then use MMD to create LaTeX
+	xsltproc -nonet -novalid $xslt_path/../XSLT/opml2mmd.xslt "$1" | multimarkdown -t latex > "$file_name.tex"
 	shift
 
 done
