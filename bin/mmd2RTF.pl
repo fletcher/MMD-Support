@@ -21,7 +21,7 @@ else
 until [ "$*" = "" ]
 do
 	# process each argument separately
-	file_name=`echo $1|cut -d. -f1 `
+	file_name=`echo $1| sed 's/\.[^.]*$//'`
 	multimarkdown "$1" | textutil -convert rtf -stdin -stdout > "$file_name.rtf"
 	shift
 done

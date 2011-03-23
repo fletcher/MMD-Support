@@ -63,7 +63,7 @@ else
 until [ "$*" = "" ]
 do
 	# process each argument separately
-	file_name=`echo $1|cut -d. -f1 `
+	file_name=`echo $1| sed 's/\.[^.]*$//'`
 	
 	# Determine stylesheet to use
 	mode=`chooseXsltForFilename "$1"`
