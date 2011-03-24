@@ -708,7 +708,7 @@
 
 	<xsl:template match="html:col">
 		<xsl:choose>
-			<xsl:when test="@align='center'">
+			<xsl:when test="@style='text-align:center;'">
 				<xsl:choose>
 					<xsl:when test="@class='extended'">
 						<xsl:text>C</xsl:text>
@@ -718,7 +718,7 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:when>
-			<xsl:when test="@align='right'">
+			<xsl:when test="@style='text-align:right;'">
 				<xsl:choose>
 					<xsl:when test="@class='extended'">
 						<xsl:text>R</xsl:text>
