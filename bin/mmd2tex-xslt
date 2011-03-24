@@ -54,9 +54,10 @@ then
 	# No arguments, so use stdin/stdout
 	
 	# Need a temporary file
+	rm mmdtempXXXX.txt 2> /dev/null
 	file_name=`mktemp mmdtempXXXX.txt`
-	
 	cat > $file_name
+	
 	
 	# Determine stylesheet to use
 	mode=`chooseXsltForFilename "$file_name"`
