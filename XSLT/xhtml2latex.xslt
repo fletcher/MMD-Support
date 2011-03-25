@@ -547,19 +547,77 @@
 	</xsl:template>
 
 	<!-- images -->
-	<xsl:template match="html:img">
+	
+	<xsl:template match="html:figure">
 		<xsl:text>\begin{figure}[htbp]
 </xsl:text>
 		<xsl:text>\centering
-\includegraphics[</xsl:text>
+</xsl:text>
+		<xsl:apply-templates select="node()"/>
+		<xsl:if test="descendant::html:img/@id">
+			<xsl:text>\label{</xsl:text>
+			<xsl:value-of select="descendant::html:img/@id"/>
+			<xsl:text>}
+</xsl:text>
+		</xsl:if>
+		<xsl:text>\end{figure}
+</xsl:text>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$newline"/>
+	</xsl:template>
+	
+	<xsl:template match="html:figcaption">
+		<xsl:text>\caption{</xsl:text>
+		<xsl:apply-templates select="node()"/>
+		<xsl:text>}
+</xsl:text>
+	</xsl:template>
+
+	<xsl:template match="html:img">
+		<xsl:text>\includegraphics[</xsl:text>
+		
+		<xsl:variable name="wReverse">
+			<xsl:call-template name="reverse">
+				<xsl:with-param name="pString"
+					select="concat(';',@style,';')"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="wAfter">
+			<xsl:call-template name="reverse">
+				<xsl:with-param name="pString"
+					select="substring-before($wReverse,':htdiw;')"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="width">
+			<xsl:value-of select="substring-before($wAfter,';')"/>
+		</xsl:variable>
+		
+		<xsl:variable name="hReverse">
+			<xsl:call-template name="reverse">
+				<xsl:with-param name="pString"
+					select="concat(';',@style,';')"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="hAfter">
+			<xsl:call-template name="reverse">
+				<xsl:with-param name="pString"
+					select="substring-before($hReverse,':thgieh;')"/>
+			</xsl:call-template>
+		</xsl:variable>
+
+		<xsl:variable name="height">
+			<xsl:value-of select="substring-before($hAfter,';')"/>
+		</xsl:variable>
+
 		<xsl:choose>
-			<xsl:when test="@width and @height">
+			<xsl:when test="($width != '') and ($height != '')">
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:text>keepaspectratio,</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
-		<xsl:if test="@width|@height">
+		<xsl:if test="($width != '' ) or ($height != '')">
 			<!-- there are dimensions, so use them -->
 			<!-- Basically, we allow any units covered by LaTeX, even
 				if they are not allowed in XHTML.  px is converted to pt.
@@ -567,10 +625,10 @@
 			-->
 			<xsl:text>width=</xsl:text>
 			<xsl:choose>
-				<xsl:when test="@width">
+				<xsl:when test="$width != ''">
 					<xsl:call-template name="replace-substring">
 						<xsl:with-param name="original">
-							<xsl:value-of select="@width"/>
+							<xsl:value-of select="$width"/>
 						</xsl:with-param>
 						<xsl:with-param name="substring">
 							<xsl:text>px</xsl:text>
@@ -579,7 +637,7 @@
 							<xsl:text>pt</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:if test="translate(@width, 
+					<xsl:if test="translate($width, 
 	'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890.'
 	,'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') = '' ">
 						<!-- no units specified -->
@@ -592,10 +650,10 @@
 			</xsl:choose>
 			<xsl:text>,height=</xsl:text>
 			<xsl:choose>
-				<xsl:when test="@height">
+				<xsl:when test="$height != ''">
 					<xsl:call-template name="replace-substring">
 						<xsl:with-param name="original">
-							<xsl:value-of select="@height"/>
+							<xsl:value-of select="$height"/>
 						</xsl:with-param>
 						<xsl:with-param name="substring">
 							<xsl:text>px</xsl:text>
@@ -604,7 +662,7 @@
 							<xsl:text>pt</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:if test="translate(@height, 
+					<xsl:if test="translate($height, 
 	'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890.'
 	,'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') = '' ">
 						<!-- no units specified -->
@@ -617,7 +675,7 @@
 			</xsl:choose>
 			<xsl:text>]</xsl:text>
 		</xsl:if>
-		<xsl:if test="not(@width|@height)">
+		<xsl:if test="not(($width != '') or ($height != ''))">
 			<!-- if no dimensions, then ensure it fits on page
 				(of course, this also goes to "max zoom"...)
 			 -->
@@ -626,22 +684,6 @@
 		<xsl:text>{</xsl:text>
 		<xsl:value-of select="@src"/>
 		<xsl:text>}
-</xsl:text>
-		<xsl:if test="@title">
-			<xsl:if test="not(@title = '')">
-				<xsl:text>\caption{</xsl:text>
-				<xsl:apply-templates select="@title"/>
-				<xsl:text>}
-</xsl:text>
-			</xsl:if>
-		</xsl:if>
-		<xsl:if test="@id">
-			<xsl:text>\label{</xsl:text>
-			<xsl:value-of select="@id"/>
-			<xsl:text>}
-</xsl:text>
-		</xsl:if>
-	<xsl:text>\end{figure}
 </xsl:text>
 	</xsl:template>
 	
@@ -682,7 +724,7 @@
 </xsl:text>
 		<xsl:apply-templates select="html:caption"/>
 		<xsl:text>\begin{tabular}{@{}</xsl:text>
-		<xsl:apply-templates select="html:col"/>
+		<xsl:apply-templates select="html:colgroup/html:col"/>
 		<xsl:text>@{}} \toprule</xsl:text>
 		<xsl:apply-templates select="html:thead"/>
 		<xsl:apply-templates select="html:tbody"/>
@@ -1060,4 +1102,18 @@
 	<xsl:template match="*[@class='noxslt']">
 	</xsl:template>
 	
+	<!-- Utility function to assist with parsing @style attributes.  From
+		http://stackoverflow.com/questions/5050491/ need-to-take-recent-style-from-html-tag-through-xslt
+	
+	-->
+	<xsl:template name="reverse">
+        <xsl:param name="pString"/>
+        <xsl:if test="$pString">
+            <xsl:call-template name="reverse">
+                <xsl:with-param name="pString" select="substring($pString,2)"/>
+            </xsl:call-template>
+            <xsl:value-of select="substring($pString,1,1)"/>
+        </xsl:if>
+    </xsl:template>
+
 </xsl:stylesheet>
