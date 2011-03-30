@@ -231,7 +231,17 @@
 	<!-- MultiMarkdown 3.0 math -->
 	
 	<xsl:template match="html:span[@class='math']">
-		<xsl:value-of select="."/>
+		<xsl:choose>
+			<!-- make inline math more robust -->
+			<xsl:when test="starts-with(.,'\(')">
+				<xsl:text>$</xsl:text>
+				<xsl:value-of select="substring-before(substring-after(.,'\('),'\)')"/>
+				<xsl:text>$</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="."/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 	
 	<!-- footnote li -->
