@@ -1,0 +1,33 @@
+#!/bin/sh
+#
+# opml2html --- MultiMarkdown convenience script
+#	<http://fletcherpenney.net/multimarkdown/>
+#	Copyright (c) 2010-2011 Fletcher T. Penney
+#
+# Convert "MMD" styled OPML file to HTML
+#
+
+# Be sure to include multimarkdown in our PATH
+export PATH="/usr/local/bin:$PATH"
+
+# Locate XSLT directory
+xslt_path=`dirname "$0"`
+
+if [ $# = 0 ]
+then
+	# No arguments, so use stdin/stdout
+
+	# XSLT to convert OPML to MMD, then use MMD to create HTML
+	xsltproc -nonet -novalid "$xslt_path/../XSLT/opml2mmd.xslt" - | multimarkdown
+	shift
+else
+until [ "$*" = "" ]
+do
+	# process each argument separately
+	file_name=`echo $1| sed 's/\.[^.]*$//'`
+
+	# XSLT to convert OPML to MMD, then use MMD to create HTML
+	xsltproc -nonet -novalid "$xslt_path/../XSLT/opml2mmd.xslt" "$1" | multimarkdown  > "$file_name.html"
+	shift
+done
+fi
