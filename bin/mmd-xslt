@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# mmd2xhtml-xslt --- MultiMarkdown convenience script
+# mmd-xslt --- MultiMarkdown convenience script
 #	<http://fletcherpenney.net/multimarkdown/>
 #	Copyright (c) 2010-2011 Fletcher T. Penney
 #
