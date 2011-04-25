@@ -712,11 +712,11 @@
 \centering
 </xsl:text>
 		<xsl:apply-templates select="html:caption"/>
-		<xsl:text>\begin{tabular}{@{}p{0.5\linewidth}@{}} \toprule </xsl:text>
+		<xsl:text>\begin{tabulary}{\textwidth}{@{}p{0.5\linewidth}@{}} \toprule </xsl:text>
 		<xsl:apply-templates select="html:thead"/>
 		<xsl:apply-templates select="html:tbody"/>
 		<xsl:apply-templates select="html:tr"/>
-		<xsl:text>\end{tabular}
+		<xsl:text>\end{tabulary}
 \end{minipage}
 \end{table}
 
@@ -733,13 +733,13 @@
 \small
 </xsl:text>
 		<xsl:apply-templates select="html:caption"/>
-		<xsl:text>\begin{tabular}{@{}</xsl:text>
+		<xsl:text>\begin{tabulary}{\textwidth}{@{}</xsl:text>
 		<xsl:apply-templates select="html:colgroup/html:col"/>
 		<xsl:text>@{}} \toprule</xsl:text>
 		<xsl:apply-templates select="html:thead"/>
 		<xsl:apply-templates select="html:tbody"/>
 		<xsl:apply-templates select="html:tr"/>
-		<xsl:text>\end{tabular}
+		<xsl:text>\end{tabulary}
 \end{minipage}
 \end{table}
 
@@ -783,7 +783,7 @@
 			<xsl:otherwise>
 				<xsl:choose>
 					<xsl:when test="@class='extended'">
-						<xsl:text>J</xsl:text>
+						<xsl:text>L</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:text>l</xsl:text>
