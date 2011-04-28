@@ -25,7 +25,7 @@ else
 until [ "$*" = "" ]
 do
 	# process each argument separately
-	file_name=`echo $1| sed 's/\.[^.]*$//'`
+	file_name=`echo "$1"| sed 's/\.[^.]*$//'`
 	
 	# XSLT to convert OPML to MMD
 	xsltproc -nonet -novalid "$xslt_path/../XSLT/opml2mmd.xslt" "$1" > "$file_name.txt"

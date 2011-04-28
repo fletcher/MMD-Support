@@ -62,7 +62,7 @@ then
 	# Determine stylesheet to use
 	mode=`chooseXsltForFilename "$file_name"`
 
-	multimarkdown "$file_name" | xsltproc -nonet -novalid $xslt_path/../XSLT/$mode -
+	multimarkdown "$file_name" | xsltproc -nonet -novalid "$xslt_path/../XSLT/$mode" -
 	shift
 
 	rm $file_name
@@ -75,7 +75,7 @@ do
 	# Determine stylesheet to use
 	mode=`chooseXsltForFilename "$1"`
 	
-	multimarkdown "$1" | xsltproc -nonet -novalid $xslt_path/../XSLT/$mode - > "$file_name.tex"
+	multimarkdown "$1" | xsltproc -nonet -novalid "$xslt_path/../XSLT/$mode" - > "$file_name.tex"
 	shift
 done
 fi
