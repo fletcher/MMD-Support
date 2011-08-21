@@ -76,11 +76,7 @@
 			<xsl:when test="translate(@name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
 			'abcdefghijklmnopqrstuvwxyz') = 'latexinput'">
 				<xsl:text>\input{</xsl:text>
-				<xsl:call-template name="clean-text">
-					<xsl:with-param name="source">
 						<xsl:value-of select="@content"/>
-					</xsl:with-param>
-				</xsl:call-template>
 				<xsl:text>}
 </xsl:text>
 			</xsl:when>
