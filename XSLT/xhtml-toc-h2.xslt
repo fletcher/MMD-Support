@@ -39,10 +39,10 @@
 	
 <xsl:stylesheet
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:xhtml="http://www.w3.org/1999/xhtml"
-	xmlns="http://www.w3.org/1999/xhtml"
-	exclude-result-prefixes="xhtml xsl"
+    xmlns:m="http://www.w3.org/1998/Math/MathML"
+	exclude-result-prefixes="xsl"
 	version="1.0">
+
 
 	<xsl:variable name="newline">
 <xsl:text>
@@ -60,13 +60,13 @@
 
 	<!-- adjust the body to add a ToC -->
 	<!-- TODO: Will need to move this to just before first <h1> to allow for introductory comments -->
-	<xsl:template match="xhtml:body">
+	<xsl:template match="body">
 		<xsl:copy>
 			<xsl:value-of select="$newline"/>
 			<h2>Table of Contents</h2>
 			<xsl:value-of select="$newline"/>
 			<ol>
-				<xsl:apply-templates select="xhtml:h2" mode="ToC"/>
+				<xsl:apply-templates select="h2" mode="ToC"/>
 				<xsl:value-of select="$newline"/>
 			</ol>
 			<xsl:apply-templates select="@*|node()"/>
@@ -75,7 +75,7 @@
 	
 	
 	<!-- create ToC entry -->
-	<xsl:template match="xhtml:h2" mode="ToC">
+	<xsl:template match="h2" mode="ToC">
 		<xsl:value-of select="$newline"/>
 		<xsl:variable name="link">
 			<xsl:value-of select="@id"/>
@@ -87,10 +87,10 @@
 			<a id="ToC-{$link}" href="#{$link}">
 				<xsl:apply-templates select="node()"/>
 			</a>
-			<xsl:if test="following::xhtml:h3[1][preceding::xhtml:h2[1]]">
+			<xsl:if test="following::h3[1][preceding::h2[1]]">
 				<xsl:value-of select="$newline"/>
 				<ol>
-					<xsl:apply-templates select="following::xhtml:h3[preceding::xhtml:h2[1][generate-id() = $myId]]" mode="ToC"/>
+					<xsl:apply-templates select="following::h3[preceding::h2[1][generate-id() = $myId]]" mode="ToC"/>
 					<xsl:value-of select="$newline"/>
 				</ol>
 				<xsl:value-of select="$newline"/>
@@ -98,7 +98,7 @@
 		</li>
 	</xsl:template>
 
-	<xsl:template match="xhtml:h3" mode="ToC">
+	<xsl:template match="h3" mode="ToC">
 		<xsl:value-of select="$newline"/>
 		<xsl:variable name="link">
 			<xsl:value-of select="@id"/>
@@ -111,7 +111,7 @@
 	</xsl:template>
 	
 	<!-- h1 and h2's should point back to the ToC for easy navigation -->
-	<xsl:template match="xhtml:h2">
+	<xsl:template match="h2">
 		<xsl:variable name="link">
 			<xsl:value-of select="@id"/>
 		</xsl:variable>
@@ -121,7 +121,7 @@
 		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="xhtml:h3">
+	<xsl:template match="h3">
 		<xsl:variable name="link">
 			<xsl:value-of select="@id"/>
 		</xsl:variable>

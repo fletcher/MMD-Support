@@ -13,8 +13,14 @@
 use strict;
 use warnings;
 
+use File::Basename;
+use Cwd;
+use Cwd 'abs_path';
+
 my $data = "";
 my $line = "";
+
+my $path_to_index = "";
 
 my $count = @ARGV;
 
@@ -28,6 +34,7 @@ if ($count == 0) {
 	mergeLines($data);
 } else {
 	foreach(@ARGV) {
+		$path_to_index = dirname(abs_path($_));
 		open(INPUT, "<$_");
 		local $/;
 		my $data = <INPUT>;
@@ -48,7 +55,8 @@ sub mergeLines {
 			my $indent = ($line =~ tr/\t/\t/);
 			$line =~ /^\s*(.*?)\s*$/;
 			
-			open(FILE, "<$1");
+			my $file_path = abs_path($path_to_index."/".$1);
+			open(FILE, "<$file_path");
 			local $/;
 			my $file = <FILE>;
 			close FILE;

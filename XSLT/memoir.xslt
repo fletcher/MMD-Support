@@ -5,7 +5,7 @@
 	Adds features to xhtml2latex.xslt that are designed to take advantage
 	of LaTeX features within the memoir class. 
 	
-	Requires MultiMarkdown 3.0 or greater
+	Requires MultiMarkdown 3.3 or greater
 	
 -->
 
@@ -32,14 +32,15 @@
 
 <xsl:stylesheet
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:m="http://www.w3.org/1998/Math/MathML"
+	exclude-result-prefixes="xsl"
 	version="1.0">
 
 	<xsl:import href="xhtml2latex.xslt"/>
 	
 	<xsl:template match="/">
-		<xsl:apply-templates select="html:html/html:head"/>
-		<xsl:apply-templates select="html:html/html:body"/>
+		<xsl:apply-templates select="html/head"/>
+		<xsl:apply-templates select="html/body"/>
 	</xsl:template>
 
 	<!-- Rename Bibliography -->
@@ -52,12 +53,12 @@
 	</xsl:template>
 
 	<!-- code block that is not a child element -->
-	<xsl:template match="html:pre[child::html:code][parent::html:body]">
+	<xsl:template match="pre[child::code][parent::body]">
 		<xsl:text>\begin{adjustwidth}{2.5em}{2.5em}
 \begin{verbatim}
 
 </xsl:text>
-		<xsl:value-of select="./html:code"/>
+		<xsl:value-of select="./code"/>
 		<xsl:text>
 \end{verbatim}
 \end{adjustwidth}

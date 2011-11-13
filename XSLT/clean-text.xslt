@@ -6,7 +6,7 @@
 	
 	Called by xhtml2latex.xslt.
 	
-	Requires MultiMarkdown 3.0 or greater
+	Requires MultiMarkdown 3.3 or greater
 	
 -->
 
@@ -33,7 +33,8 @@
 	
 <xsl:stylesheet
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:m="http://www.w3.org/1998/Math/MathML"
+	exclude-result-prefixes="xsl"
 	version="1.0">
 
 	<!-- Pass XHTML Comments through unaltered (useful for including
