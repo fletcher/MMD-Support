@@ -71,7 +71,7 @@
 	</xsl:template>
 
 
-	<xsl:template match="meta">
+	<xsl:template match="meta[@name]">
 		<xsl:choose>
 			<xsl:when test="translate(@name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
 			'abcdefghijklmnopqrstuvwxyz') = 'latexinput'">
