@@ -758,7 +758,7 @@
 						<xsl:text>C</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:text>c</xsl:text>
+						<xsl:text>C</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:when>
@@ -768,7 +768,7 @@
 						<xsl:text>R</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:text>r</xsl:text>
+						<xsl:text>R</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:when>
@@ -778,7 +778,7 @@
 						<xsl:text>L</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:text>l</xsl:text>
+						<xsl:text>L</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:otherwise>
