@@ -49,7 +49,7 @@ my $table_caption = qr{
 
 my $table_divider = qr{
 	$line_start
-	[\|\-\+\:\.][ \-\+\|\:\.]*?\|[ \-\+\|\:\.]*
+	[\|\-\+\:\.][\t \-\+\|\:\.]*?\|[\t \-\+\|\:\.]*
 }mx;
 
 my $whole_table = qr{
